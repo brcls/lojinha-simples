@@ -1,21 +1,20 @@
 import React from "react";
 import { Button, Grid, Container, Typography } from '@mui/material';
-import LojaLogo from '../assets/loja.png';
 import { Link } from 'react-router-dom';
+import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 
 function TelaIncial() {
     return (
         <Grid
             container
-            spacing={12}
-            sx={{ mt: 17 }}
+            sx={{ mt: "10%" }}
             direction="column"
-            justifyContent="space-around"
+            justifyContent="center"
             alignItems="center"
         >
-            <img src={LojaLogo} alt="loja logo" width="150" height="150" />
-            <Typography variant="h4" align="center" sx={{ fontFamily: 'Roboto', mt: "2%" }}>
-                Bem vindo a Lojinha!
+            <StorefrontTwoToneIcon sx={{ width: "10%", height: "10%", color: "#22bffd"}} />
+            <Typography variant="h4" align="center" sx={{ fontFamily: 'Roboto', mt: "1%" }}>
+                Bem vindo à Lojinha!
             </Typography>
             <Typography variant="h7" align="center" sx={{ fontFamily: 'Roboto', mt: "1%" }}>
                 Faça seu cadastro! Se já possui conta, faça seu login abaixo.
