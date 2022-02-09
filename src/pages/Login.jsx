@@ -2,11 +2,42 @@ import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ArrowCircleLeft } from "@mui/icons-material";
+import { useEffect } from "react";
 
 function Login({ aoEnviar, validarCPF }) {
-  const [cpf, setCpf] = useState("");
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" } });
+  const [erros, setErros] = useState("");
+
+  function onChange(ev) {
+    const { name, value } = ev.target;
+    setErros("");
+    if (name === "email") setEmail(value);
+    if (name === "senha") setSenha(value);
+  }
+
+  function validate(email, senha) {
+    let erros;
+
+    if (email === "") erros = "Insira um email válido";
+    else if (senha === "") erros = "Insira uma senha válida";
+    else erros = "Email e/ou senha incorretos";
+
+    return erros;
+  }
+
+  function onSubmit(ev) {
+    ev.preventDefault();
+
+    setErros(validate(email, senha));
+
+    console.log(erros);
+
+    if (email === "erick@liven.tech" && senha === "123") {
+      window.location.href = "/produtos";
+    }
+  }
+
   return (
     <Grid
       container
@@ -33,50 +64,33 @@ function Login({ aoEnviar, validarCPF }) {
         >
           Login
         </Typography>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            aoEnviar({ cpf, senha });
-          }}
-        >
+        <form onSubmit={onSubmit}>
           <TextField
-            value={cpf}
-            onChange={(event) => {
-              setCpf(event.target.value);
-            }}
-            onBlur={(event) => {
-              const ehValido = validarCPF(cpf);
-              setErros({ cpf: ehValido });
-            }}
-            error={!erros.cpf.valido}
-            helperText={erros.cpf.texto}
-            id="CPF"
-            label="CPF"
+            name="email"
+            onChange={onChange}
+            label="Email"
             variant="outlined"
             margin="normal"
             fullWidth
           />
           <TextField
-            value={senha}
-            onChange={(event) => {
-              setSenha(event.target.value);
-            }}
-            id="senha"
+            name="senha"
+            onChange={onChange}
             label="Senha"
             variant="outlined"
             margin="normal"
+            type="password"
             fullWidth
           />
-          <Link to="/produtos" style={{ textDecoration: "none" }}>
-            <Button
-              fullWidth
-              type="submit"
-              color="primary"
-              sx={{ mt: "1%", fontWeight: "bold", boxShadow: 5 }}
-            >
-              Login
-            </Button>
-          </Link>
+          <label>{erros}</label>
+          <Button
+            fullWidth
+            type="submit"
+            color="primary"
+            sx={{ mt: "1%", fontWeight: "bold", boxShadow: 5 }}
+          >
+            Login
+          </Button>
         </form>
       </Container>
     </Grid>

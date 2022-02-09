@@ -8,20 +8,11 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  minHeight: "450px"
 }));
 
 const Produto = ({ item, addItemCart }) => {
-  const handleClickBotton = () => {
-    return (
-      <Alert severity="success">
-        <AlertTitle>Sucesso!</AlertTitle>O produto foi colocado no carrinho—
-        <Link to="/carrinho" style={{ textDecoration: "none" }}>
-          <strong>Clique aqui para acessar o carrinho</strong>
-        </Link>
-      </Alert>
-    );
-  };
-
+ 
   return (
     <Item>
       <img

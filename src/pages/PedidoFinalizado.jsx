@@ -2,7 +2,22 @@ import React from "react";
 import { Button, Container, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ArrowCircleLeft} from "@mui/icons-material";
-function PaginaInexistente() {
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+
+function PaginaFinalizado() {
+  const [total, setTotal] = useState (0);
+  const carrinho = useSelector((state) => state.ReducerCarrinho);
+
+  useEffect (() => {
+    let count = 0;
+    carrinho.data.map((item) => {
+      count += item.price;
+    });
+    setTotal(count);
+  }, [carrinho]);
+
   return (
     <Grid
       container
@@ -32,11 +47,11 @@ function PaginaInexistente() {
           align="center"
           sx={{ fontFamily: "Roboto", mt: "3%", mb: "3%"}}
         >
-          O valor total do seu pedido:
+          O valor total do seu pedido: {total}
         </Typography>
       </Container>
     </Grid>
   );
 }
 
-export default PaginaInexistente;
+export default PaginaFinalizado;

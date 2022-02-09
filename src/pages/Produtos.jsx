@@ -21,7 +21,7 @@ function Produtos() {
   }
 
   // console.log(products);
-  console.log(carrinho.data);
+  console.log(carrinho);
 
   return (
     <>
