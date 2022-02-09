@@ -15,7 +15,7 @@ function Cadastro({ aoEnviar, validarCPF }) {
         <Grid
             container
             direction="row"
-            justifyContent="space-around"
+            justifyContent="space-between"
             alignItems="flex-start"
         >
             <Link to="/" style={{ textDecoration: 'none' }}>
