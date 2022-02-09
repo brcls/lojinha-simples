@@ -1,42 +1,46 @@
-import React from "react"
-import { AppBar, Toolbar, Typography, Stack } from "@mui/material";
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
-import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
-import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Produto from "../components/Produto";
+import NavBar from "../components/NavBar";
+import { Grid, Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import addCartAction from "../store/actions/ActionCarrinho";
 
 function Produtos() {
-    return (
-        <AppBar position="static">
-            <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="baseline"
-                spacing={2}
-            >
-                <Toolbar>
-                    <Link to="/carrinho">
-                        <ShoppingCartTwoToneIcon fontSize="large" sx={{ color: "#003d55" }} />
-                    </Link>
-                </Toolbar>
-                <Toolbar>
-                    <Link to="/produtos">
-                        <StorefrontTwoToneIcon fontSize="large" sx={{ color: "#003d55" }} />
-                    </Link>
-                    <Link to="/produtos" style={{ textDecoration: 'none' }}>
-                        <Typography variant="h5" align="center" sx={{ ml: "7%", color: "#003d55", fontFamily: 'Roboto', mt: "1%" }}>
-                            Lojinha
-                        </Typography>
-                    </Link>
-                </Toolbar>
-                <Toolbar>
-                    <Link to="/">
-                        <LogoutTwoToneIcon fontSize="large" sx={{ color: "#003d55" }} />
-                    </Link>
-                </Toolbar>
-            </Stack>
-        </AppBar>
-    );
+  const [products, setProducts] = useState([]);
+  const carrinho = useSelector((state) => state.ReducerCarrinho);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((json) => setProducts(json));
+  }, []);
+
+  function addItemCart(item) {
+    dispatch(addCartAction(item));
+  }
+
+  // console.log(products);
+  console.log(carrinho.data);
+
+  return (
+    <>
+      <NavBar />
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {products.map((item, Key) => (
+            <Grid item mt={"5%"} xs={2} sm={4} md={4} >
+              <Produto key={Key} item={item} addItemCart={addItemCart} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </>
+  );
 }
 
-export default Produtos
+export default Produtos;
