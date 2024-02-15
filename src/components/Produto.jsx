@@ -1,35 +1,45 @@
-import { Button, Paper, styled, Alert, AlertTitle } from "@mui/material";
+import { Button, Paper, styled } from "@mui/material";
 import React from "react";
 import AddShoppingCartTwoToneIcon from "@mui/icons-material/AddShoppingCartTwoTone";
-import { Link } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: "20px",
   textAlign: "center",
   color: theme.palette.text.secondary,
-  minHeight: "450px"
+  height: "250px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 10,
 }));
 
 const Produto = ({ item, addItemCart }) => {
- 
   return (
     <Item>
       <img
-        width={"30%"}
-        height={"30%"}
+        width={"150px"}
+        height={"150px"}
         className="ProdImg"
         src={item.image}
         alt={item.title}
       />
-      <h2>{item.title}</h2>
-      <h1>R$ {item.price}</h1>
-      <Button
-        onClick={() => addItemCart(item)}
-        sx={{ margin: 1, fontWeight: "bold", boxShadow: 5 }}
+      <h3>{item.title}</h3>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          gap: 10,
+          justifyContent: "space-between",
+        }}
       >
-        <AddShoppingCartTwoToneIcon />
-      </Button>
+        <h2 style={{ textWrap: "nowrap" }}>R$ {item.price}</h2>
+        <Button variant="contained" onClick={() => addItemCart(item)}>
+          <AddShoppingCartTwoToneIcon />
+        </Button>
+      </div>
     </Item>
   );
 };

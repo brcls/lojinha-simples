@@ -1,8 +1,7 @@
-import React from "react";
 import Rotas from "./routes";
 import { Provider } from "react-redux";
 import reducer from "./store";
-import { createStore } from 'redux';
+import { createStore } from "redux";
 
 const store = createStore(reducer);
 

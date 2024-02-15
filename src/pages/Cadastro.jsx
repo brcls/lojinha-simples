@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { TextField, Button, Container, Typography, Grid } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { ArrowCircleLeft} from "@mui/icons-material";
+import { ArrowCircleLeft } from "@mui/icons-material";
 
 function Cadastro({ aoEnviar, validarCPF }) {
   const [nome, setNome] = useState("");
@@ -22,13 +29,13 @@ function Cadastro({ aoEnviar, validarCPF }) {
       alignItems="flex-start"
     >
       <Link to="/" style={{ textDecoration: "none" }}>
-        <Button
+        <IconButton
           fullWidth
           size="small"
           sx={{ boxShadow: 5, mt: "20%", ml: "20%" }}
         >
           <ArrowCircleLeft />
-        </Button>
+        </IconButton>
       </Link>
       <Container component="article" maxWidth="sm" sx={{ mr: "30%" }}>
         <Typography

@@ -1,16 +1,16 @@
 import React from "react";
 import { Button, Container, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ArrowCircleLeft} from "@mui/icons-material";
+import { ArrowCircleLeft } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 
 function PaginaFinalizado() {
-  const [total, setTotal] = useState (0);
+  const [total, setTotal] = useState(0);
   const carrinho = useSelector((state) => state.ReducerCarrinho);
 
-  useEffect (() => {
+  useEffect(() => {
     let count = 0;
     carrinho.data.map((item) => {
       count += item.price;
@@ -25,7 +25,7 @@ function PaginaFinalizado() {
       justifyContent="space-between"
       alignItems="flex-start"
     >
-      <Link to="/" style={{ textDecoration: "none" }}>
+      <Link to="/produtos" style={{ textDecoration: "none" }}>
         <Button
           fullWidth
           size="small"
@@ -34,7 +34,7 @@ function PaginaFinalizado() {
           <ArrowCircleLeft />
         </Button>
       </Link>
-      <Container maxWidth="lg" sx={{ mr: "12%"}}>
+      <Container maxWidth="lg" sx={{ mr: "12%" }}>
         <Typography
           variant="h3"
           align="center"
@@ -45,7 +45,7 @@ function PaginaFinalizado() {
         <Typography
           variant="h6"
           align="center"
-          sx={{ fontFamily: "Roboto", mt: "3%", mb: "3%"}}
+          sx={{ fontFamily: "Roboto", mt: "3%", mb: "3%" }}
         >
           O valor total do seu pedido: {total}
         </Typography>

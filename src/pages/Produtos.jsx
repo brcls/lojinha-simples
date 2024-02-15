@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Produto from "../components/Produto";
 import NavBar from "../components/NavBar";
-import { Grid, Box } from "@mui/material";
+import { Grid, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import addCartAction from "../store/actions/ActionCarrinho";
 
 function Produtos() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const carrinho = useSelector((state) => state.ReducerCarrinho);
   const dispatch = useDispatch();
 
@@ -26,19 +26,33 @@ function Produtos() {
   return (
     <>
       <NavBar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {products.map((item, Key) => (
-            <Grid item mt={"5%"} xs={2} sm={4} md={4} >
-              <Produto key={Key} item={item} addItemCart={addItemCart} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      <Grid
+        direction="row"
+        justifyContent="start"
+        alignItems="center"
+        padding={4}
+        container
+        spacing={4}
+        columns={{ xs: 2, sm: 8, md: 12 }}
+      >
+        {products
+          ? products.map((item, Key) => (
+              <Grid key={Key} item xs={2} sm={4} md={4}>
+                <Produto item={item} addItemCart={addItemCart} />
+              </Grid>
+            ))
+          : Array(10)
+              .fill()
+              .map((Key) => (
+                <Grid key={Key} item xs={2} sm={4} md={4}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={"270px"}
+                    sx={{ borderRadius: 1 }}
+                  />
+                </Grid>
+              ))}
+      </Grid>
     </>
   );
 }

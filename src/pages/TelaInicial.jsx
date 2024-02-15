@@ -18,31 +18,21 @@ function TelaIncial() {
       <Typography
         variant="h4"
         align="center"
-        sx={{ fontFamily: "Roboto", mt: "1%" }}
+        sx={{ mt: "1rem", fontWeight: "700" }}
       >
         Bem vindo à Lojinha!
       </Typography>
-      <Typography
-        variant="h7"
-        align="center"
-        sx={{ fontFamily: "Roboto", mt: "1%" }}
-      >
+      <Typography variant="h7" align="center" sx={{ mt: "1rem" }}>
         Faça seu cadastro! Se já possui conta, faça seu login abaixo.
       </Typography>
-      <Container maxWidth="xs" sx={{ mt: "1%" }}>
+      <Container maxWidth="xs" sx={{ mt: "1rem" }}>
         <Link to="/cadastro" style={{ textDecoration: "none" }}>
-          <Button
-            fullWidth
-            sx={{ margin: 1, fontWeight: "bold", boxShadow: 5 }}
-          >
+          <Button sx={{ mt: "0.5rem" }} variant="outlined" fullWidth>
             Cadastro
           </Button>
         </Link>
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button
-            fullWidth
-            sx={{ margin: 1, fontWeight: "bold", boxShadow: 5 }}
-          >
+          <Button sx={{ mt: "0.5rem" }} variant="outlined" fullWidth>
             Login
           </Button>
         </Link>
