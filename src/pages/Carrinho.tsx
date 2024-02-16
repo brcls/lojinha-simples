@@ -2,7 +2,7 @@ import NavBar from "../components/NavBar";
 import { Typography, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { ICart, cartState } from "../store/cartSlice";
+import { ICart, cartState, cleanCart } from "../store/cartSlice";
 import Produto from "../components/Produto";
 import AlertComponent from "../components/Alert/Alert";
 import { useControlVisibilityAlert } from "../components/Alert/hooks";
@@ -14,8 +14,15 @@ function Produtos() {
   const navigate = useNavigate();
 
   function handleOnFinishOrder() {
-    if (cart.subTotal > 0) navigate("/pedido-finalizado");
-    else control("Carrinho vazio", "info");
+    if (cart.subTotal > 0) {
+      dispatch(cleanCart());
+      navigate("/pedido-finalizado");
+    } else control("Carrinho vazio", "info");
+  }
+
+  function handleCleanCart() {
+    dispatch(cleanCart());
+    control("Carrinho esvaziado", "error");
   }
 
   return (
@@ -23,11 +30,11 @@ function Produtos() {
       <NavBar />
       <div
         style={{
-          padding: "24px",
+          padding: "40px",
           display: "flex",
           flexDirection: "column",
           gap: 20,
-          height: "calc(100svh - 7rem)",
+          minHeight: "calc(100svh - 7rem - 40px)",
           justifyContent: "space-between",
         }}
       >
@@ -59,11 +66,10 @@ function Produtos() {
             display: "flex",
             justifyContent: "space-between",
             gap: 10,
-            padding: "40px 0",
           }}
         >
           <Button
-            onClick={() => handleOnFinishOrder()}
+            onClick={() => handleCleanCart()}
             color="error"
             variant="contained"
           >
