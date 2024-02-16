@@ -4,7 +4,7 @@ import {
   Button,
   Container,
   Typography,
-  Grid,
+  Box,
   IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -22,31 +22,33 @@ function Cadastro({ aoEnviar, validarCPF }) {
   }
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="flex-start"
+    <Box
+      sx={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <IconButton
-          fullWidth
-          size="small"
-          sx={{ boxShadow: 5, mt: "20%", ml: "20%" }}
-        >
+      <Link
+        to="/"
+        style={{
+          textDecoration: "none",
+          position: "absolute",
+          left: 10,
+          top: 10,
+        }}
+      >
+        <IconButton>
           <ArrowCircleLeft />
         </IconButton>
       </Link>
-      <Container component="article" maxWidth="sm" sx={{ mr: "30%" }}>
-        <Typography
-          variant="h3"
-          component="h1"
-          align="center"
-          sx={{ fontFamily: "Roboto", mt: 10 }}
-        >
+      <Container sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Typography variant="h5" align="left" sx={{ fontWeight: "bold" }}>
           Cadastro
         </Typography>
         <form
+          style={{ display: "flex", flexDirection: "column", gap: 10 }}
           onSubmit={(event) => {
             event.preventDefault();
             printa(event);
@@ -59,9 +61,8 @@ function Cadastro({ aoEnviar, validarCPF }) {
             }}
             id="nome"
             label="Nome"
-            variant="outlined"
-            margin="normal"
             fullWidth
+            size="small"
           />
           <TextField
             value={email}
@@ -70,10 +71,9 @@ function Cadastro({ aoEnviar, validarCPF }) {
             }}
             id="email"
             label=" Email"
-            variant="outlined"
-            margin="normal"
             type={"email"}
             fullWidth
+            size="small"
           />
           <TextField
             value={cpf}
@@ -82,9 +82,8 @@ function Cadastro({ aoEnviar, validarCPF }) {
             }}
             id="CPF"
             label="CPF"
-            variant="outlined"
-            margin="normal"
             fullWidth
+            size="small"
           />
           <TextField
             value={nascimento}
@@ -92,10 +91,9 @@ function Cadastro({ aoEnviar, validarCPF }) {
               setNascimento(event.target.value);
             }}
             id="DataDeNascimento"
-            variant="outlined"
-            margin="normal"
             type={"date"}
             fullWidth
+            size="small"
           />
 
           <TextField
@@ -105,24 +103,18 @@ function Cadastro({ aoEnviar, validarCPF }) {
             }}
             id="senha"
             label=" Senha"
-            variant="outlined"
-            margin="normal"
             type={"password"}
             fullWidth
+            size="small"
           />
           <Link to="/produtos" style={{ textDecoration: "none" }}>
-            <Button
-              type="submit"
-              color="primary"
-              fullWidth
-              sx={{ mt: "1%", fontWeight: "bold", boxShadow: 5 }}
-            >
+            <Button type="submit" variant="outlined" fullWidth>
               Cadastrar
             </Button>
           </Link>
         </form>
       </Container>
-    </Grid>
+    </Box>
   );
 }
 

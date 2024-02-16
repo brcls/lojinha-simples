@@ -1,15 +1,17 @@
 import Rotas from "./routes";
 import { Provider } from "react-redux";
-import reducer from "./store";
-import { createStore } from "redux";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { store } from "./store/store";
 
-const store = createStore(reducer);
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Provider store={store}>
-      <Rotas />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <Rotas />
+      </Provider>
+    </QueryClientProvider>
   );
 }
 
