@@ -4,7 +4,7 @@ import RemoveShoppingCartTwoToneIcon from "@mui/icons-material/RemoveShoppingCar
 import { IProdutoData } from "../interfaces/IProdutoData";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { addItem, removeItem, cartState } from "../store/cartSlice";
-import { IAlertControl } from "../pages/Produtos";
+import { IAlertControl, SeverityType } from "../pages/Produtos";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -42,16 +42,10 @@ const ProdutoCard = ({
   const dispatch = useAppDispatch();
   const cart = useAppSelector(cartState);
 
-  function addItemCart(): void {
-    const isExist = cart.products.find((item) => item.id === produto.id);
-
-    if (isExist) return;
-
-    console.log("entro");
-
+  function fillAlert(message: string, severity: SeverityType) {
     const newAlert: IAlertControl = {
-      message: "Produto adicionado ao carrinho",
-      severity: "success",
+      message: message,
+      severity: severity,
       show: true,
     };
 
@@ -61,22 +55,22 @@ const ProdutoCard = ({
         setAlertControl({ ...newAlert, show: false });
       }, 2000);
     }
+  }
+
+  function addItemCart(): void {
+    const isExist = cart.products.find((item) => item.id === produto.id);
+
+    if (isExist) {
+      fillAlert("Produto já está no carrinho", "info");
+      return;
+    }
+
+    fillAlert("Produto adicionado ao carrinho", "success");
     dispatch(addItem(produto));
   }
 
   function removeItemCart(): void {
-    const newAlert: IAlertControl = {
-      message: "Produto removido do carrinho",
-      severity: "error",
-      show: true,
-    };
-
-    if (setAlertControl) {
-      setAlertControl(newAlert);
-      setTimeout(() => {
-        setAlertControl({ ...newAlert, show: false });
-      }, 2000);
-    }
+    fillAlert("Produto removido do carrinho", "error");
     dispatch(removeItem(produto));
   }
 

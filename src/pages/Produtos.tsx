@@ -5,9 +5,11 @@ import { IProdutoData } from "../interfaces/IProdutoData";
 import { useQuery } from "react-query";
 import { useState } from "react";
 
+export type SeverityType = "error" | "info" | "success" | "warning";
+
 export interface IAlertControl {
   show: boolean;
-  severity: "error" | "info" | "success" | "warning";
+  severity: SeverityType;
   message: string;
 }
 
