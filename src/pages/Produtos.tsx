@@ -1,25 +1,13 @@
 import Produto from "../components/Produto";
 import NavBar from "../components/NavBar";
-import { Grid, Skeleton, Alert } from "@mui/material";
+import { Grid, Skeleton } from "@mui/material";
 import { IProdutoData } from "../interfaces/IProdutoData";
 import { useQuery } from "react-query";
-import { useState } from "react";
-
-export type SeverityType = "error" | "info" | "success" | "warning";
-
-export interface IAlertControl {
-  show: boolean;
-  severity: SeverityType;
-  message: string;
-}
+import AlertComponent from "../components/Alert/Alert";
 
 function Produtos() {
   const { data: products } = useQuery<IProdutoData[]>("todos", () =>
     fetch("https://fakestoreapi.com/products").then((res) => res.json())
-  );
-
-  const [alertControl, setAlertControl] = useState<IAlertControl>(
-    {} as IAlertControl
   );
 
   return (
@@ -37,7 +25,7 @@ function Produtos() {
         {products?.length
           ? products.map((item, Key) => (
               <Grid key={Key} item xs={2} sm={4} md={4}>
-                <Produto produto={item} setAlertControl={setAlertControl} />
+                <Produto produto={item} />
               </Grid>
             ))
           : Array(10)
@@ -52,15 +40,7 @@ function Produtos() {
                 </Grid>
               ))}
       </Grid>
-      {alertControl.show && (
-        <Alert
-          sx={{ position: "fixed", zIndex: 10, right: 20, bottom: 20 }}
-          variant="filled"
-          severity={alertControl.severity}
-        >
-          {alertControl.message}
-        </Alert>
-      )}
+      {<AlertComponent />}
     </>
   );
 }

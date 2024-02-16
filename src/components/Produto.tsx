@@ -3,8 +3,8 @@ import AddShoppingCartTwoToneIcon from "@mui/icons-material/AddShoppingCartTwoTo
 import RemoveShoppingCartTwoToneIcon from "@mui/icons-material/RemoveShoppingCartTwoTone";
 import { IProdutoData } from "../interfaces/IProdutoData";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { addItem, removeItem, cartState } from "../store/cartSlice";
-import { IAlertControl, SeverityType } from "../pages/Produtos";
+import { addItem, removeItem, cartState, ICart } from "../store/cartSlice";
+import { useControlVisibilityAlert } from "./Alert/hooks";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -22,7 +22,6 @@ const Item = styled(Paper)(({ theme }) => ({
 interface IProdutoCardProps {
   produto: IProdutoData;
   isCartView?: boolean;
-  setAlertControl?: React.Dispatch<React.SetStateAction<IAlertControl>>;
 }
 
 type ButtonColorType =
@@ -34,43 +33,24 @@ type ButtonColorType =
   | "info"
   | "warning";
 
-const ProdutoCard = ({
-  produto,
-  isCartView = false,
-  setAlertControl,
-}: IProdutoCardProps) => {
+const ProdutoCard = ({ produto, isCartView = false }: IProdutoCardProps) => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector(cartState);
-
-  function fillAlert(message: string, severity: SeverityType) {
-    const newAlert: IAlertControl = {
-      message: message,
-      severity: severity,
-      show: true,
-    };
-
-    if (setAlertControl) {
-      setAlertControl(newAlert);
-      setTimeout(() => {
-        setAlertControl({ ...newAlert, show: false });
-      }, 2000);
-    }
-  }
+  const cart: ICart = useAppSelector(cartState);
+  const control = useControlVisibilityAlert(dispatch);
 
   function addItemCart(): void {
     const isExist = cart.products.find((item) => item.id === produto.id);
 
     if (isExist) {
-      fillAlert("Produto já está no carrinho", "info");
+      control("Produto já está no carrinho", "info");
       return;
     }
-
-    fillAlert("Produto adicionado ao carrinho", "success");
+    control("Produto adicionado ao carrinho", "success");
     dispatch(addItem(produto));
   }
 
   function removeItemCart(): void {
-    fillAlert("Produto removido do carrinho", "error");
+    control("Produto removido do carrinho", "error");
     dispatch(removeItem(produto));
   }
 

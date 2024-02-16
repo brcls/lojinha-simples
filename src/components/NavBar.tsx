@@ -13,11 +13,12 @@ import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
-    <AppBar position="static">
+    <AppBar sx={{ height: "4rem" }} position="static">
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
+        height={"100%"}
         spacing={2}
       >
         <Toolbar>

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import { IProdutoData } from "../interfaces/IProdutoData";
 
-interface ICart {
+export interface ICart {
   products: IProdutoData[];
   subTotal: number;
 }

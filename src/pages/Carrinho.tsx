@@ -1,68 +1,83 @@
 import NavBar from "../components/NavBar";
-import { Typography, Button, Grid, Alert } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useAppSelector } from "../hooks";
-import { cartState } from "../store/cartSlice";
+import { Typography, Button, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { ICart, cartState } from "../store/cartSlice";
 import Produto from "../components/Produto";
-import { IAlertControl } from "./Produtos";
-import { useState } from "react";
+import AlertComponent from "../components/Alert/Alert";
+import { useControlVisibilityAlert } from "../components/Alert/hooks";
 
 function Produtos() {
-  const cart = useAppSelector(cartState);
+  const cart: ICart = useAppSelector(cartState);
+  const dispatch = useAppDispatch();
+  const control = useControlVisibilityAlert(dispatch);
+  const navigate = useNavigate();
 
-  const [alertControl, setAlertControl] = useState<IAlertControl>(
-    {} as IAlertControl
-  );
+  function handleOnFinishOrder() {
+    if (cart.subTotal > 0) navigate("/pedido-finalizado");
+    else control("Carrinho vazio", "info");
+  }
 
   return (
     <>
       <NavBar />
-      <div style={{ padding: 24 }}>
-        <Typography variant="h5" sx={{ fontFamily: "Roboto" }}>
-          Seu carrinho de compras:
-        </Typography>
-        <Grid
-          direction="row"
-          justifyContent="start"
-          alignItems="center"
-          container
-          spacing={4}
-          columns={{ xs: 2, sm: 8, md: 12 }}
-        >
-          {cart.subTotal !== 0 ? (
-            cart.products.map((item, Key) => (
-              <Grid key={Key} item xs={2} sm={4} md={4}>
-                <Produto
-                  produto={item}
-                  isCartView
-                  setAlertControl={setAlertControl}
-                />
+      <div
+        style={{
+          padding: "24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+          height: "calc(100svh - 7rem)",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+          <Typography variant="h5">Seu carrinho de compras:</Typography>
+          <Grid
+            direction="row"
+            justifyContent="start"
+            alignItems="center"
+            container
+            spacing={4}
+            columns={{ xs: 2, sm: 8, md: 12 }}
+          >
+            {cart.subTotal !== 0 ? (
+              cart.products.map((item, Key) => (
+                <Grid key={Key} item xs={2} sm={4} md={4}>
+                  <Produto produto={item} isCartView />
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={2} sm={4} md={4}>
+                <Typography variant="h5">Nada por aqui...</Typography>
               </Grid>
-            ))
-          ) : (
-            <Grid item xs={2} sm={4} md={4}>
-              <h2>Carrinho vazio</h2>
-            </Grid>
-          )}
-        </Grid>
-        <Typography variant="h5" sx={{ fontFamily: "Roboto", mt: "3%" }}>
-          Subtotal: {cart.subTotal}
-        </Typography>
-        <Link to="/pedido-finalizado" style={{ textDecoration: "none" }}>
-          <Button fullWidth variant="contained">
-            Finalizar compra
-          </Button>
-        </Link>
-      </div>
-      {alertControl.show && (
-        <Alert
-          sx={{ position: "fixed", zIndex: 10, right: 20, bottom: 20 }}
-          variant="filled"
-          severity={alertControl.severity}
+            )}
+          </Grid>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 10,
+            padding: "40px 0",
+          }}
         >
-          {alertControl.message}
-        </Alert>
-      )}
+          <Button
+            onClick={() => handleOnFinishOrder()}
+            color="error"
+            variant="contained"
+          >
+            Esvaziar carrinho
+          </Button>
+          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+            <Typography variant="h6">Subtotal: {cart.subTotal}</Typography>
+            <Button onClick={() => handleOnFinishOrder()} variant="contained">
+              Finalizar compra
+            </Button>
+          </div>
+        </div>
+      </div>
+      {<AlertComponent />}
     </>
   );
 }

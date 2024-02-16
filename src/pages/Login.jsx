@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { ArrowCircleLeft } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-function Login({ aoEnviar, validarCPF }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erros, setErros] = useState("");
