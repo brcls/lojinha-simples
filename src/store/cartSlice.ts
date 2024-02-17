@@ -5,10 +5,11 @@ import { IProdutoData } from "../interfaces/IProdutoData";
 export interface ICart {
   products: IProdutoData[];
   subTotal: number;
+  quantity: number;
 }
 
 // Define the initial state using that type
-const initialState = { products: [], subTotal: 0 } as ICart;
+const initialState = { products: [], subTotal: 0, quantity: 0 } as ICart;
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -17,10 +18,12 @@ export const cartSlice = createSlice({
     addItem: (state, actions: PayloadAction<IProdutoData>) => {
       const subTotal = state.subTotal + actions.payload.price;
       const itens = [...state.products, actions.payload];
+      const quantity = state.quantity + 1;
 
       const newCart: ICart = {
         subTotal: subTotal,
         products: itens,
+        quantity: quantity,
       };
 
       return newCart;
@@ -30,10 +33,12 @@ export const cartSlice = createSlice({
       const itens = state.products.filter(
         (value) => value.id !== actions.payload.id
       );
+      const quantity = state.quantity - 1;
 
       const newCart: ICart = {
         subTotal: subTotal,
         products: itens,
+        quantity: quantity,
       };
 
       return newCart;

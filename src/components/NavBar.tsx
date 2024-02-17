@@ -5,13 +5,18 @@ import {
   Stack,
   IconButton,
   Button,
+  Badge,
 } from "@mui/material";
 import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../hooks";
+import { ICart, cartState } from "../store/cartSlice";
 
 function NavBar() {
+  const cart: ICart = useAppSelector(cartState);
+
   return (
     <AppBar sx={{ height: "4rem" }} position="static">
       <Stack
@@ -24,10 +29,12 @@ function NavBar() {
         <Toolbar>
           <Link to="/carrinho">
             <IconButton>
-              <ShoppingCartTwoToneIcon
-                fontSize="large"
-                sx={{ color: "#003d55" }}
-              />
+              <Badge badgeContent={cart.quantity} color="info">
+                <ShoppingCartTwoToneIcon
+                  fontSize="large"
+                  sx={{ color: "#003d55" }}
+                />
+              </Badge>
             </IconButton>
           </Link>
         </Toolbar>
